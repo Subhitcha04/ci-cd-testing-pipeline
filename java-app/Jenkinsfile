@@ -2,7 +2,8 @@ pipeline {
     agent any
     
     tools {
-        maven 'Maven 3.6.3' // Make sure Maven is configured in Jenkins
+        maven 'Maven 3.9.12'  // Matches the name in Jenkins Tools
+        jdk 'JDK-17'          // Matches the name in Jenkins Tools
     }
     
     stages {
@@ -17,7 +18,7 @@ pipeline {
             steps {
                 echo 'Building Java application...'
                 dir('java-app') {
-                    sh 'mvn clean compile'
+                    sh 'mvn clean compile'  // Use 'sh' for Linux servers
                 }
             }
         }
@@ -32,7 +33,6 @@ pipeline {
             post {
                 always {
                     dir('java-app') {
-                        // Publish JUnit test results
                         junit '**/target/surefire-reports/*.xml'
                     }
                 }
@@ -57,33 +57,7 @@ pipeline {
             echo '❌ Build FAILED! Tests did not pass - Quality Gate enforced.'
         }
         always {
-            echo 'Cleaning up workspace...'
+            echo 'Pipeline completed.'
         }
     }
 }
-```
-
-### 7. `java-app/.gitignore`
-```
-# Compiled class files
-*.class
-
-# Maven
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-
-# IDE files
-.idea/
-*.iml
-.vscode/
-.eclipse/
-.settings/
-
-# OS files
-.DS_Store
-Thumbs.db
