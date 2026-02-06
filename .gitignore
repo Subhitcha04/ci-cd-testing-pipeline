@@ -1,0 +1,28 @@
+# Java
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# Node.js
+node_modules/
+npm-debug.log*
+test-results/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.eclipse/
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.swp
+*.swo
+*~

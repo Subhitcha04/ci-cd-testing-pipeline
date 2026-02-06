@@ -1,0 +1,19 @@
+{
+  "name": "node-ci-demo",
+  "version": "1.0.0",
+  "description": "Demo Node.js project for CI/CD with automated tests",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "mocha --reporter mocha-junit-reporter --reporter-options mochaFile=./test-results/results.xml || mocha",
+    "test:watch": "mocha --watch"
+  },
+  "keywords": ["ci", "cd", "testing", "demo"],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "chai": "^4.3.10",
+    "mocha-junit-reporter": "^2.2.1"
+  }
+}

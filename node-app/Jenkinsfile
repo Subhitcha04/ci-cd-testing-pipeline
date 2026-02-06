@@ -1,0 +1,91 @@
+pipeline {
+    agent any
+    
+    tools {
+        nodejs 'NodeJS 16' // Make sure Node.js is configured in Jenkins
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out code...'
+                checkout scm
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing npm dependencies...'
+                dir('node-app') {
+                    sh 'npm install'
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+                dir('node-app') {
+                    sh 'npm test'
+                }
+            }
+            post {
+                always {
+                    dir('node-app') {
+                        // Publish JUnit test results
+                        junit 'test-results/*.xml'
+                    }
+                }
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                echo 'Application ready for deployment'
+                dir('node-app') {
+                    sh 'node src/app.js'
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo '✅ Build SUCCESS! All tests passed.'
+        }
+        failure {
+            echo '❌ Build FAILED! Tests did not pass - Quality Gate enforced.'
+        }
+        always {
+            echo 'Cleaning up workspace...'
+        }
+    }
+}
+```
+
+### 7. `node-app/.gitignore`
+```
+# Dependencies
+node_modules/
+
+# Test results
+test-results/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local

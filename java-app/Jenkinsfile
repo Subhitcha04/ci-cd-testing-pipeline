@@ -1,0 +1,89 @@
+pipeline {
+    agent any
+    
+    tools {
+        maven 'Maven 3.6.3' // Make sure Maven is configured in Jenkins
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out code...'
+                checkout scm
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                echo 'Building Java application...'
+                dir('java-app') {
+                    sh 'mvn clean compile'
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+                dir('java-app') {
+                    sh 'mvn test'
+                }
+            }
+            post {
+                always {
+                    dir('java-app') {
+                        // Publish JUnit test results
+                        junit '**/target/surefire-reports/*.xml'
+                    }
+                }
+            }
+        }
+        
+        stage('Package') {
+            steps {
+                echo 'Packaging application...'
+                dir('java-app') {
+                    sh 'mvn package -DskipTests'
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo '✅ Build SUCCESS! All tests passed.'
+        }
+        failure {
+            echo '❌ Build FAILED! Tests did not pass - Quality Gate enforced.'
+        }
+        always {
+            echo 'Cleaning up workspace...'
+        }
+    }
+}
+```
+
+### 7. `java-app/.gitignore`
+```
+# Compiled class files
+*.class
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.eclipse/
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
