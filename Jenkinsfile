@@ -60,14 +60,3 @@ pipeline {
         }
     }
 }
-```
-
-## **Option 2: Separate Jenkinsfiles for Each App**
-
-If you want separate pipelines, create two Jenkinsfiles:
-```
-ci-testing-demo/
-├── java-app/
-│   └── Jenkinsfile      # ← For Java app only
-└── node-app/
-    └── Jenkinsfile      # ← For Node.js app only
