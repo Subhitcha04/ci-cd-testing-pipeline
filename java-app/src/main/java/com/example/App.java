@@ -1,18 +1,17 @@
-package com.example;
-
 public class App {
-    
-    public static void main(String[] args) {
-        System.out.println("Hello from Java CI Demo!");
-        
-        Calculator calc = new Calculator();
-        System.out.println("2 + 3 = " + calc.add(2, 3));
-        System.out.println("5 - 2 = " + calc.subtract(5, 2));
-        System.out.println("4 * 3 = " + calc.multiply(4, 3));
-        System.out.println("10 / 2 = " + calc.divide(10, 2));
+    // ★ HARDCODED SECRET — will trigger Vulnerability ★
+    private static final String API_KEY = "hardcoded-secret-key-12345";
+
+    // ★ EMPTY CATCH BLOCK — will trigger a Bug ★
+    public void riskyMethod() {
+        try {
+            int result = 10 / 0;
+        } catch (Exception e) {
+            // empty catch - SonarQube detects this as a bug
+        }
     }
-    
-    public String getGreeting() {
-        return "Hello World!";
+
+    public static void main(String[] args) {
+        System.out.println("This is devops CI/CD pipeline testing");
     }
 }

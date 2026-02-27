@@ -1,27 +1,15 @@
-const Calculator = require('./calculator');
+// ★ HARDCODED SECRET — will trigger Vulnerability ★
+const API_KEY = "hardcoded-secret-key-12345";
+const DB_PASSWORD = "supersecretpassword123";
 
-class App {
-    constructor() {
-        this.calculator = new Calculator();
-    }
-    
-    getGreeting() {
-        return 'Hello World!';
-    }
-    
-    run() {
-        console.log('Hello from Node.js CI Demo!');
-        console.log('2 + 3 =', this.calculator.add(2, 3));
-        console.log('5 - 2 =', this.calculator.subtract(5, 2));
-        console.log('4 * 3 =', this.calculator.multiply(4, 3));
-        console.log('10 / 2 =', this.calculator.divide(10, 2));
+// ★ EMPTY CATCH — will trigger a Bug ★
+function riskyFunction() {
+    try {
+        let x = null;
+        x.toString();
+    } catch (e) {
+        // empty catch block - intentional bug for testing
     }
 }
 
-// Run the app if this file is executed directly
-if (require.main === module) {
-    const app = new App();
-    app.run();
-}
-
-module.exports = App;
+riskyFunction();

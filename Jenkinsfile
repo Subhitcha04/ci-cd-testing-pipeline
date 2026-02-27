@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     tools {
-        maven 'Maven 3.9.12'   // ← ADDED (required for Java stages)
-        jdk 'JDK-17'           // ← ADDED (required for Java stages)
+        maven 'Maven 3.9.12'
+        jdk 'JDK-17'
         nodejs 'NodeJS'
     }
     
@@ -48,7 +48,6 @@ pipeline {
             }
         }
 
-        // ★ NEW ★
         stage('SonarQube Analysis - Java') {
             steps {
                 echo 'Running SonarQube analysis for Java...'
@@ -61,6 +60,16 @@ pipeline {
                               -Dsonar.java.binaries=target/classes
                         '''
                     }
+                }
+            }
+        }
+
+        // ★ NEW ★
+        stage('Quality Gate - Java') {
+            steps {
+                echo 'Checking Quality Gate for Java...'
+                timeout(time: 3, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
@@ -91,7 +100,6 @@ pipeline {
             }
         }
 
-        // ★ NEW ★
         stage('SonarQube Analysis - Node') {
             steps {
                 echo 'Running SonarQube analysis for Node.js...'
@@ -110,14 +118,24 @@ pipeline {
                 }
             }
         }
+
+        // ★ NEW ★
+        stage('Quality Gate - Node') {
+            steps {
+                echo 'Checking Quality Gate for Node.js...'
+                timeout(time: 3, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
     }
     
     post {
         success {
-            echo '✅ Pipeline completed successfully! All tests passed.'
+            echo '✅ Pipeline completed successfully! All Quality Gates passed.'
         }
         failure {
-            echo '❌ Pipeline failed. Check the logs for details.'
+            echo '❌ Pipeline FAILED! Quality Gate not passed - deployment blocked.'
         }
         always {
             echo 'Pipeline completed.'
