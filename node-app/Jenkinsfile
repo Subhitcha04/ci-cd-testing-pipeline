@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        nodejs 'NodeJS 16' // Make sure Node.js is configured in Jenkins
+        nodejs 'NodeJS' // Make sure Node.js is configured in Jenkins
     }
     
     stages {
@@ -61,31 +61,3 @@ pipeline {
         }
     }
 }
-```
-
-### 7. `node-app/.gitignore`
-```
-# Dependencies
-node_modules/
-
-# Test results
-test-results/
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-
-# IDE files
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Environment variables
-.env
-.env.local
