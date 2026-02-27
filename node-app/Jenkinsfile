@@ -32,8 +32,27 @@ pipeline {
             post {
                 always {
                     dir('node-app') {
-                        // Publish JUnit test results
                         junit 'test-results/*.xml'
+                    }
+                }
+            }
+        }
+
+        // ★ NEW STAGE ADDED ★
+        stage('SonarQube Analysis') {
+            steps {
+                echo 'Running SonarQube static analysis...'
+                withSonarQubeEnv('My Sonar Server') {   // must match name in Jenkins → Configure System
+                    dir('node-app') {
+                        sh '''
+                            sonar-scanner \
+                              -Dsonar.projectKey=node-app \
+                              -Dsonar.projectName="Node App" \
+                              -Dsonar.sources=src \
+                              -Dsonar.language=js \
+                              -Dsonar.sourceEncoding=UTF-8 \
+                              -Dsonar.exclusions=**/node_modules/**,**/test/**,**/*.test.js
+                        '''
                     }
                 }
             }
