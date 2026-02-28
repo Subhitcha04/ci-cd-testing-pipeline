@@ -1,11 +1,15 @@
 package com.example;
 
+import java.util.logging.Logger;
+
 public class App {
+
+    private static final Logger logger = Logger.getLogger(App.class.getName());
 
     public void riskyMethod() {
         // Clean method — no exceptions, no unused variables
         int value = getValue();
-        System.out.println("Value: " + value);
+        logger.info("Value: " + value);
     }
 
     public int getValue() {
@@ -15,6 +19,6 @@ public class App {
     public static void main(String[] args) {
         App app = new App();
         app.riskyMethod();
-        System.out.println("Application started successfully.");
+        logger.info("Application started successfully.");
     }
 }
