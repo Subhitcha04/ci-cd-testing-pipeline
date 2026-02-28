@@ -19,6 +19,16 @@ public class AppTest {
     }
 
     @Test
+    public void testGetValue() {
+        assertEquals(42, app.getValue());
+    }
+
+    @Test
+    public void testGetValueIsPositive() {
+        assertTrue(app.getValue() > 0);
+    }
+
+    @Test
     public void testRiskyMethodDoesNotThrow() {
         try {
             app.riskyMethod();
@@ -26,24 +36,6 @@ public class AppTest {
         } catch (Exception e) {
             fail("riskyMethod should not throw: " + e.getMessage());
         }
-    }
-
-    @Test
-    public void testRiskyMethodHandlesException() {
-        try {
-            app.riskyMethod();
-            assertTrue(true);
-        } catch (Exception e) {
-            fail("Exception should have been caught inside riskyMethod: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testApiKeyFromEnvironment() {
-        // Just verify System.getenv doesn't throw
-        String apiKey = System.getenv("API_KEY");
-        // null is acceptable — means env var not set
-        assertTrue(apiKey == null || apiKey.length() >= 0);
     }
 
     @Test
