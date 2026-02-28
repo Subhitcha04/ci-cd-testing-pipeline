@@ -1,14 +1,14 @@
-// ★ HARDCODED SECRET — will trigger Vulnerability ★
-const API_KEY = "hardcoded-secret-key-12345";
-const DB_PASSWORD = "supersecretpassword123";
+// ✅ FIX 1: Read from environment variables
+const API_KEY = process.env.API_KEY;
+const DB_PASSWORD = process.env.DB_PASSWORD;
 
-// ★ EMPTY CATCH — will trigger a Bug ★
+// ✅ FIX 2: Handle the exception properly
 function riskyFunction() {
     try {
         let x = null;
         x.toString();
     } catch (e) {
-        // empty catch block - intentional bug for testing
+        console.error("Error in riskyFunction:", e.message);
     }
 }
 

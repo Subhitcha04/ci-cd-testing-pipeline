@@ -1,17 +1,19 @@
+package com.example; 
 public class App {
-    // ★ HARDCODED SECRET — will trigger Vulnerability ★
-    private static final String API_KEY = "hardcoded-secret-key-12345";
 
-    // ★ EMPTY CATCH BLOCK — will trigger a Bug ★
+    // ✅ FIX 1: Read from environment variable instead of hardcoding
+    private static final String API_KEY = System.getenv("API_KEY");
+
+    // ✅ FIX 2: Always log or handle the exception — never leave catch empty
     public void riskyMethod() {
         try {
             int result = 10 / 0;
-        } catch (Exception e) {
-            // empty catch - SonarQube detects this as a bug
+        } catch (ArithmeticException e) {
+            System.err.println("Arithmetic error occurred: " + e.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        System.out.println("This is devops CI/CD pipeline testing");
+        System.out.println("Hello World!");
     }
 }
