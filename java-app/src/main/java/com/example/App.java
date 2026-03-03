@@ -9,7 +9,7 @@ public class App {
     public void riskyMethod() {
         // Clean method — no exceptions, no unused variables
         int value = getValue();
-        logger.info("Value: " + value);
+        logger.info("Value: {}", value);
     }
 
     public int getValue() {
