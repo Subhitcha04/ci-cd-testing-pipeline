@@ -1,4 +1,3 @@
-// Read from environment variables
 const API_KEY = process.env.API_KEY;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 
@@ -6,7 +5,7 @@ class App {
     constructor() {}
 
     getGreeting() {
-        return "Hello, World!";
+        return "Hello World!";
     }
 
     riskyFunction() {
